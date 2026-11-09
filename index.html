@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>RingCentral SMS</title>
+<title>Portal SMS Xolengo</title>
 
 <style>
 body{
@@ -30,6 +30,7 @@ button{
 
 #resultado{
     margin-top:15px;
+    font-weight:bold;
 }
 </style>
 
@@ -50,27 +51,26 @@ Enviar SMS
 
 <script>
 
-async function enviarSMS() {
+function enviarSMS() {
 
-  document.getElementById("resultado").innerHTML = "Enviando...";
+    const to = document.getElementById("to").value;
+    const text = document.getElementById("text").value;
 
-  const response = await fetch(
-    "https://script.google.com/macros/s/AKfycbxMAQq9Wjc9yNHhZdG0rOE1gXvm_vMybzo4Bg1_nPsXPm6pOIVSNCx3mZMBu14roIsO/exec",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify({
-        to: document.getElementById("to").value,
-        text: document.getElementById("text").value
-      })
+    if (!to || !text) {
+        document.getElementById("resultado").innerHTML =
+        "Captura número y mensaje";
+        return;
     }
-  );
 
-  document.getElementById("resultado").innerHTML =
-  "✅ SMS enviado";
+    document.getElementById("resultado").innerHTML =
+    "Abriendo envío...";
 
+    const url =
+    "https://script.google.com/macros/s/AKfycbxMAQq9Wjc9yNHhZdG0rOE1gXvm_vMybzo4Bg1_nPsXPm6pOIVSNCx3mZMBu14roIsO/exec" +
+    "?to=" + encodeURIComponent(to) +
+    "&text=" + encodeURIComponent(text);
+
+    window.open(url, "_blank");
 }
 
 </script>
