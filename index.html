@@ -1,25 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Portal SMS Xolengo</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+}
+
+input, textarea{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+button{
+    background: #0078D4;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    cursor: pointer;
+}
+
+#resultado{
+    margin-top: 15px;
+    font-weight: bold;
+}
+</style>
+
+</head>
+<body>
+
+<h2>Portal SMS Xolengo</h2>
+
+<input
+    type="text"
+    id="to"
+    placeholder="+525541234567">
+
+<textarea
+    id="text"
+    rows="5"
+    placeholder="Escribe tu mensaje"></textarea>
+
+<button onclick="enviarSMS()">
+Enviar SMS
+</button>
+
+<div id="resultado"></div>
+
 <script>
 
 function enviarSMS() {
 
-    const to = document.getElementById("to").value;
-    const text = document.getElementById("text").value;
+    const to = document.getElementById("to").value.trim();
+    const text = document.getElementById("text").value.trim();
 
     if (!to || !text) {
-        document.getElementById("resultado").innerHTML =
-        "Captura número y mensaje";
+        document.getElementById("resultado").innerText =
+            "Capture número y mensaje";
         return;
     }
 
-    document.getElementById("resultado").innerHTML =
-    "Enviando...";
-
     const url =
-    "https://script.google.com/macros/s/AKfycbxMAQq9Wjc9yNHhZdG0rOE1gXvm_vMybzo4Bg1_nPsXPm6pOIVSNCx3mZMBu14roIsO/exec" +
-    "?to=" + encodeURIComponent(to) +
-    "&text=" + encodeURIComponent(text);
+        "https://script.google.com/macros/s/AKfycbxMAQq9Wjc9yNHhZdG0rOE1gXvm_vMybzo4Bg1_nPsXPm6pOIVSNCx3mZMBu14roIsO/exec" +
+        "?to=" + encodeURIComponent(to) +
+        "&text=" + encodeURIComponent(text);
 
     window.open(url, "_blank");
 }
 
 </script>
+
+</body>
+</html>
