@@ -1,113 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Portal SMS Xolengo</title>
-
-<style>
-body{
-    font-family: Arial, sans-serif;
-    max-width:600px;
-    margin:auto;
-    padding:20px;
-}
-
-input, textarea{
-    width:100%;
-    padding:10px;
-    margin-bottom:10px;
-    box-sizing:border-box;
-}
-
-button{
-    background:#0078D4;
-    color:white;
-    border:none;
-    padding:12px 20px;
-    cursor:pointer;
-    width:100%;
-}
-
-#resultado{
-    margin-top:15px;
-    font-weight:bold;
-}
-</style>
-
-</head>
-<body>
-
-<h2>Portal SMS Xolengo</h2>
-
-<input type="text" id="to" placeholder="+521234567890">
-
-<textarea id="text" rows="5" placeholder="Escribe tu mensaje"></textarea>
-
-<button onclick="enviarSMS()">
-Enviar SMS
-</button>
-
-<div id="resultado"></div>
-
 <script>
 
-async function enviarSMS() {
+function enviarSMS() {
 
-    const to = document.getElementById("to").value.trim();
-    const text = document.getElementById("text").value.trim();
-    const resultado = document.getElementById("resultado");
+    const to = document.getElementById("to").value;
+    const text = document.getElementById("text").value;
 
     if (!to || !text) {
-        resultado.innerHTML =
+        document.getElementById("resultado").innerHTML =
         "Captura número y mensaje";
         return;
     }
 
-    resultado.innerHTML =
-    "Enviando SMS...";
+    document.getElementById("resultado").innerHTML =
+    "Enviando...";
 
-    try {
+    const url =
+    "https://script.google.com/macros/s/AKfycbxMAQq9Wjc9yNHhZdG0rOE1gXvm_vMybzo4Bg1_nPsXPm6pOIVSNCx3mZMBu14roIsO/exec" +
+    "?to=" + encodeURIComponent(to) +
+    "&text=" + encodeURIComponent(text);
 
-        const response = await fetch(
-            "https://script.google.com/macros/s/AKfycbxMAQq9Wjc9yNHhZdG0rOE1gXvm_vMybzo4Bg1_nPsXPm6pOIVSNCx3mZMBu14roIsO/exec",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    to: to,
-                    text: text
-                })
-            }
-        );
-
-        const data = await response.json();
-
-        console.log(data);
-
-        if (data.success) {
-
-            resultado.innerHTML =
-            "✅ SMS enviado correctamente";
-
-        } else {
-
-            resultado.innerHTML =
-            "❌ Error: " + JSON.stringify(data);
-
-        }
-
-    } catch (error) {
-
-        console.error(error);
-
-        resultado.innerHTML =
-        "❌ Error de conexión: " + error.message;
-    }
+    window.open(url, "_blank");
 }
 
 </script>
-
-</body>
-</html>
