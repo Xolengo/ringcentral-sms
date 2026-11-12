@@ -63,8 +63,8 @@ function enviarSMS() {
     const text = document.getElementById("text").value.trim();
 
     if (!to || !text) {
-        document.getElementById("resultado").innerText =
-            "Capture número y mensaje";
+        document.getElementById("resultado").innerHTML =
+            "⚠️ Capture número y mensaje";
         return;
     }
 
@@ -73,7 +73,28 @@ function enviarSMS() {
         "?to=" + encodeURIComponent(to) +
         "&text=" + encodeURIComponent(text);
 
-    window.open(url, "_blank");
+    document.getElementById("resultado").innerHTML =
+        "⏳ Enviando SMS...";
+
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+
+            document.getElementById("resultado").innerHTML =
+                "✅ SMS enviado correctamente";
+
+            console.log(data);
+
+        })
+        .catch(error => {
+
+            document.getElementById("resultado").innerHTML =
+                "❌ Error al enviar SMS";
+
+            console.error(error);
+
+        });
+
 }
 
 </script>
